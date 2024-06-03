@@ -1,0 +1,1 @@
+Visualizador de dados SCADA das turbinas eólicas
