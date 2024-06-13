@@ -11,7 +11,7 @@ class main_windows(QMainWindow):
         self.initUI()
         
     def initUI(self):
-        self.setWindowTitle("Offshore Wind Power SCADA Data Visualization - OWP SCADA DataVis")
+        self.setWindowTitle("A System to View and Identify Wind Turbine Faults")
 
         label_background_logo = QLabel(self)
         pixmap_logo = QPixmap('./asserts/image/logo.png')

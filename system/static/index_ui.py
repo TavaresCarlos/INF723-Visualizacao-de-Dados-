@@ -17,8 +17,6 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import plotly.express as px
 
-
-
 class index_windows(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -73,27 +71,28 @@ class index_windows(QMainWindow):
         self.setMaximumSize(1450, 790)
 
     def anomaly_chart(self):
-        # Criar os traces para o gráfico
+        #PAF = Pontos de Anomalias e Falhas
         anomaly_trace_1 = go.Scatter(
             x = self.df['Wind Speed (m/s)'],
             y = self.df['LV ActivePower (kW)'],
             mode = 'markers',
             marker = dict(color='#836FFF'),
-            name = 'Abnormal'
+            name = 'PAF'
         )
 
+        #CR = Curva de Referência
         anomaly_trace_2 = go.Scatter(
             x = self.df['Wind Speed (m/s)'],
             y = self.df['Theoretical_Power_Curve (KWh)'],
             mode = 'markers',
             marker = dict(color='#F0E68C'),
-            name = 'Normal'
+            name = 'CR'
         )
 
         anomaly_layout = go.Layout(
-            title = 'Anomaly and Fault Signatures',
-            xaxis = dict(title='Wind Speed (m/s)'),
-            yaxis = dict(title='Power (kW)')
+            title = 'Curva de Potência (kW)',
+            xaxis = dict(title='Velocidade do Vento (m/s)'),
+            yaxis = dict(title='Potência (kW)')
         )
 
         # Adicionar os traces ao objeto de dados (data)
@@ -111,7 +110,7 @@ class index_windows(QMainWindow):
         boxplot_fig.add_trace(go.Box(y = self.df['Wind Speed (m/s)'], name = 'Wind Speed (m/s)', showlegend = False, boxpoints = 'outliers'), row = 1, col = 1)
         boxplot_fig.add_trace(go.Box(y = self.df['LV ActivePower (kW)'], name = 'ActivePower (kW)', showlegend = False, boxpoints = 'outliers'), row = 1, col = 2)
 
-        boxplot_fig.update_layout(title='Boxplot')
+        boxplot_fig.update_layout(title='Distribuição dos Dados e Detecção de Outliers')
 
         boxplot_temp_file = tempfile.NamedTemporaryFile(suffix = '.html', delete = False)
         boxplot_fig.write_html(boxplot_temp_file.name)
@@ -138,7 +137,7 @@ class index_windows(QMainWindow):
         
 
         time_produce_layout = go.Layout(
-            title = 'Produção de Energia',
+            title = 'Potências Real x Teórica',
             xaxis=dict(title='Time'),
             yaxis=dict(title='Power (kW)')
         )
