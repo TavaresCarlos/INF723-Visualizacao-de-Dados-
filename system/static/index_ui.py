@@ -76,7 +76,7 @@ class index_windows(QMainWindow):
             x = self.df['Wind Speed (m/s)'],
             y = self.df['LV ActivePower (kW)'],
             mode = 'markers',
-            marker = dict(color='#836FFF'),
+            marker = dict(symbol='circle-open', color='#836FFF', size=4),
             name = 'PAF'
         )
 
@@ -85,7 +85,7 @@ class index_windows(QMainWindow):
             x = self.df['Wind Speed (m/s)'],
             y = self.df['Theoretical_Power_Curve (KWh)'],
             mode = 'markers',
-            marker = dict(color='#F0E68C'),
+            marker = dict(symbol='circle-open', color='#F0E68C', size=4),
             name = 'CR'
         )
 
@@ -105,12 +105,16 @@ class index_windows(QMainWindow):
         self.plot_widget.setUrl(QUrl.fromLocalFile(anomaly_temp_file.name))
     
     def bloxplot_chart(self):
-        boxplot_fig = make_subplots(rows=1, cols=2)
+        boxplot_fig = make_subplots(rows=1, cols=3)
 
         boxplot_fig.add_trace(go.Box(y = self.df['Wind Speed (m/s)'], name = 'Wind Speed (m/s)', showlegend = False, boxpoints = 'outliers'), row = 1, col = 1)
         boxplot_fig.add_trace(go.Box(y = self.df['LV ActivePower (kW)'], name = 'ActivePower (kW)', showlegend = False, boxpoints = 'outliers'), row = 1, col = 2)
+        boxplot_fig.add_trace(go.Box(y = self.df['Wind Direction (°)'], name = 'Wind Direction (°)', showlegend = False, boxpoints = 'outliers'), row = 1, col = 3)
 
-        boxplot_fig.update_layout(title='Distribuição dos Dados e Detecção de Outliers')
+        #boxplot_fig.update_layout(title='Distribuição dos Dados e Detecção de Outliers')
+        boxplot_fig.update_layout(
+            title='Distribuição dos Dados e Detecção de Outliers'
+        )
 
         boxplot_temp_file = tempfile.NamedTemporaryFile(suffix = '.html', delete = False)
         boxplot_fig.write_html(boxplot_temp_file.name)
@@ -138,8 +142,8 @@ class index_windows(QMainWindow):
 
         time_produce_layout = go.Layout(
             title = 'Potências Real x Teórica',
-            xaxis=dict(title='Time'),
-            yaxis=dict(title='Power (kW)')
+            xaxis=dict(title='Data'),
+            yaxis=dict(title='Potência (kW)')
         )
 
         time_produce_data = [time_produce_trace_2, time_produce_trace_1]
